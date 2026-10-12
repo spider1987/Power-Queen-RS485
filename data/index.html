@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="de">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Power Queen M2430N</title><link rel="stylesheet" href="/style.css"><script src="/app.js" defer></script></head>
+<body><main>
+<header><div><p class="eyebrow">SOLAR MONITOR · ESP32-S3</p><h1>Power Queen <span>M2430N</span></h1></div><span id="status" class="badge offline" role="status">Verbindung prüfen</span></header>
+<nav aria-label="Navigation"><a href="/">Übersicht</a><a href="/debug">RS485 Diagnose</a></nav>
+<p id="notice" class="notice">Registermapping noch nicht bestätigt. Unbekannte Werte werden nicht als Messwerte dargestellt.</p>
+<section id="overview">
+<div class="cards">
+<article><h2>☀ PV</h2><div class="hero" data-value="pv.power" data-unit="W">—</div><dl><dt>Spannung</dt><dd data-value="pv.voltage" data-unit="V">—</dd><dt>Strom</dt><dd data-value="pv.current" data-unit="A">—</dd></dl></article>
+<article><h2>Batterie</h2><div class="hero" data-value="battery.voltage" data-unit="V">—</div><dl><dt>Ladestrom</dt><dd data-value="battery.current" data-unit="A">—</dd><dt>Leistung</dt><dd data-value="battery.power" data-unit="W">—</dd><dt>Ladezustand</dt><dd data-value="battery.soc" data-unit="%">—</dd><dt>Temperatur</dt><dd data-value="battery.temperature" data-unit="°C">—</dd></dl></article>
+<article><h2>MPPT</h2><div class="hero" data-value="controller.temperature" data-unit="°C">—</div><dl><dt>Ladephase (Rohcode)</dt><dd data-value="controller.chargeState">—</dd><dt>Fehlercode</dt><dd data-value="controller.faultCode">—</dd><dt>Messdaten</dt><dd id="dataState">Unbekannt</dd></dl></article>
+<article><h2>Energie</h2><div class="hero" data-value="energy.daily" data-unit="Wh">—</div><dl><dt>Tagesertrag</dt><dd data-value="energy.daily" data-unit="Wh">—</dd><dt>Gesamtertrag</dt><dd data-value="energy.total" data-unit="Wh">—</dd></dl></article>
+<article><h2>Lastausgang</h2><div class="hero" data-value="load.power" data-unit="W">—</div><dl><dt>Spannung</dt><dd data-value="load.voltage" data-unit="V">—</dd><dt>Strom</dt><dd data-value="load.current" data-unit="A">—</dd></dl></article>
+<article><h2>Kommunikation</h2><dl><dt>Letzte Antwort</dt><dd id="responseAge">Noch keine</dd><dt>Letzte Messdaten</dt><dd id="dataAge">Noch keine</dd><dt>Erfolgreich</dt><dd id="success">0</dd><dt>Modbus-Fehler</dt><dd id="errors">0</dd></dl></article>
+</div>
+<article class="history"><div class="chartHeader"><h2>Verlauf · letzte 60 Minuten</h2><label>Messgröße <select id="series"><option value="pvPower">PV-Leistung (W)</option><option value="batteryVoltage">Batteriespannung (V)</option><option value="batteryCurrent">Ladestrom (A)</option><option value="temperature">Regler-Temperatur (°C)</option></select></label></div><canvas id="chart" role="img" aria-label="Messverlauf der ausgewählten Größe"></canvas><p id="chartInfo">Noch keine bestätigten Messwerte vorhanden.</p></article>
+</section>
+<section id="debug" hidden>
+<article><h2>Read-only Register Scanner</h2><p>Nur FC03/04 · maximal 4 Register · 200 ms Pause · 500 ms Timeout. Registeradressen und RJ45-Belegung sind noch nicht bestätigt.</p>
+<form id="scanForm"><label>Startregister<input name="start" value="0x0100" required maxlength="7"></label><label>Endregister<input name="end" value="0x010F" required maxlength="7"></label><label>Funktion<select name="function"><option value="3">03 · Holding Registers</option><option value="4">04 · Input Registers</option></select></label><label>Register je Anfrage<select name="count"><option>1</option><option>2</option><option>3</option><option>4</option></select></label><button type="submit">Register Scan starten</button></form>
+<div class="actions"><button id="stop" type="button" class="secondary">Scan stoppen</button><button id="diagnose" type="button" class="secondary">Baudrate &amp; Slave-ID testen</button></div><p id="jobMessage" role="status">Bereit</p></article>
+<div class="cards"><article><h2>UART &amp; letzte Abfrage</h2><dl id="query"></dl></article><article><h2>Statistik</h2><dl id="stats"></dl></article></div>
+<article><h2>Frames · HEX</h2><p id="frameResult">Noch keine Abfrage</p><h3>TX</h3><pre id="tx">—</pre><h3>RX</h3><pre id="rx">—</pre><p>Die letzte Antwort ist eine Momentaufnahme. Vollständige Scanergebnisse stehen im Serial Monitor (115200 Baud).</p></article>
+</section>
+<footer>Firmware 0.1.0 · Lokal gespeichert · Keine Schreibzugriffe · <a href="/api/status">REST Status</a></footer>
+</main></body></html>
